@@ -20,6 +20,9 @@ const config: Config = {
         logo: {
           name: '#F4E2DE',
           background: '#6A2055',
+          500: '#6A2055',
+          400: '#6A2045',
+          600: '#6A2060',
         },
         custom: {
           customBlue: '#007bff',
