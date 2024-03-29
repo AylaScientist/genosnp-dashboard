@@ -17,6 +17,16 @@ const config: Config = {
           500: '#0070F3',
           600: '#2F6FEB',
         },
+        logo: {
+          name: '#F4E2DE',
+          background: '#6A2055',
+        },
+        custom: {
+          customBlue: '#007bff',
+          customRed: 'rgb(255, 99, 71)',
+          customGreen: 'hsl(125, 50%, 50%)',
+          customPurple: 'rgba(128, 0, 128, 0.5)',
+        },
       },
     },
     keyframes: {

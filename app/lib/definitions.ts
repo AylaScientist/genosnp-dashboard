@@ -9,29 +9,80 @@ export type User = {
   password: string;
 };
 
-export type Customer = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
+export type project_description = {
+  title: string;
+  sample_names: string;
+  type: 'ASE' | 'GWAS vcf' | 'CHIPseq' | 'Single SNP';
 };
 
-export type Invoice = {
-  id: string;
-  customer_id: string;
-  amount: number;
-  date: string;
-  // In TypeScript, this is called a string union type.
-  // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
-  status: 'pending' | 'paid';
+export type ase_details = {
+  design: string;
+  groups: string;
+  two_samples: string;
+  fastq_path: string;
+  name_by_tissue: string;
+  known_geno: string;
 };
 
-export type Revenue = {
+export type vcf_details = {
+  SNP_table: string;
+};
+
+export type genome = {
+  species: string;
+  release: string;
+  build: string;
+  file: string;
+};
+
+export type functional_annotation = {
+  GO: string;
+  KEGG: string;
+};
+
+export type sequencing = {
+  read_length: number;
+  ends: string;
+  trim: number;
+};
+
+export type engine = {
+  type: 'HPC' | 'CPU' | 'Cloud';
+  GPUs: number;
+  threads: number;
+  mem_mb: number;
+  java_opts: string;
+  workflow_path: string;
+};
+
+export type annotation = {
+  gff3: string;
+  gtf: string;
+  annovar_db: string;
+}
+
+export type SNP = {
+  CHROM: string;
+  POS: number;
+  ref: string;
+  alt: string;
+  ref_count: number;
+  alt_count: number;
+  gene: string;
+  transcript: string;
+  type: 'coding' | 'mRNA' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'others'; // In TypeScript, this is called a string union type.
+  pdb: string;
+  gene_image: string;
+  protein_image: string;
+  notes: string;
+};
+
+export type Statistics = {
   month: string;
   revenue: number;
 };
 
-export type LatestInvoice = {
+export type LatestSNP = {
   id: string;
   name: string;
   image_url: string;
@@ -40,11 +91,11 @@ export type LatestInvoice = {
 };
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
-export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
+export type LatestSNPRaw = Omit<LatestSNP, 'amount'> & {
   amount: number;
 };
 
-export type InvoicesTable = {
+export type SNPsTable = {
   id: string;
   customer_id: string;
   name: string;
@@ -55,7 +106,7 @@ export type InvoicesTable = {
   status: 'pending' | 'paid';
 };
 
-export type CustomersTableType = {
+export type genomesTableType = {
   id: string;
   name: string;
   email: string;
@@ -65,7 +116,7 @@ export type CustomersTableType = {
   total_paid: number;
 };
 
-export type FormattedCustomersTable = {
+export type FormattedgenomesTable = {
   id: string;
   name: string;
   email: string;
@@ -75,14 +126,26 @@ export type FormattedCustomersTable = {
   total_paid: string;
 };
 
-export type CustomerField = {
+export type genomesField = {
   id: string;
   name: string;
 };
 
-export type InvoiceForm = {
+export type SNPsForm = {
   id: string;
   customer_id: string;
   amount: number;
   status: 'pending' | 'paid';
 };
+
+export type results_ASE = {
+  o1: string;
+  o2: string;
+  o3: string;
+  o4: string;
+  o5: string;
+}
+
+export type results_GWAS = {
+  manhattan_plot: string;
+}

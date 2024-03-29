@@ -1,0 +1,55 @@
+Palette
+Business Name
+HEX:
+	#F4E2DE
+RGB:
+	244 226 222
+CMYK:
+	0 7 9 4
+Pantone:
+	11-2309
+Slogan
+HEX:
+	#F4E2DE
+RGB:
+	244 226 222
+CMYK:
+	0 7 9 4
+Pantone:
+	11-2309
+Icon
+HEX:
+	#F4E2DE
+RGB:
+	244 226 222
+CMYK:
+	0 7 9 4
+Pantone:
+	11-2309
+Background
+HEX:
+	#6A2055
+RGB:
+	106 32 85
+CMYK:
+	0 70 20 58
+Pantone:
+	19-2429
+Background Elements
+HEX:
+	#F4E2DE
+RGB:
+	244 226 222
+CMYK:
+	0 7 9 4
+Pantone:
+	11-2309
+Foreground Elements
+HEX:
+	#6A2055
+RGB:
+	106 32 85
+CMYK:
+	0 70 20 58
+Pantone:
+	19-2429

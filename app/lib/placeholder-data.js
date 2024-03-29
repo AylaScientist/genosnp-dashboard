@@ -9,180 +9,149 @@ const users = [
   },
 ];
 
-const customers = [
+const project_description = [
   {
-    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
-    name: 'Delba de Oliveira',
-    email: 'delba@oliveira.com',
-    image_url: '/customers/delba-de-oliveira.png',
+    title: 'Project 3 Nile',
+    sample_names: 'Sample_names.csv',
+    type: 'ASE_SNPs',
   },
   {
-    id: '3958dc9e-742f-4377-85e9-fec4b6a6442a',
-    name: 'Lee Robinson',
-    email: 'lee@robinson.com',
-    image_url: '/customers/lee-robinson.png',
-  },
-  {
-    id: '3958dc9e-737f-4377-85e9-fec4b6a6442a',
-    name: 'Hector Simpson',
-    email: 'hector@simpson.com',
-    image_url: '/customers/hector-simpson.png',
-  },
-  {
-    id: '50ca3e18-62cd-11ee-8c99-0242ac120002',
-    name: 'Steven Tey',
-    email: 'steven@tey.com',
-    image_url: '/customers/steven-tey.png',
-  },
-  {
-    id: '3958dc9e-787f-4377-85e9-fec4b6a6442a',
-    name: 'Steph Dietz',
-    email: 'steph@dietz.com',
-    image_url: '/customers/steph-dietz.png',
-  },
-  {
-    id: '76d65c26-f784-44a2-ac19-586678f7c2f2',
-    name: 'Michael Novotny',
-    email: 'michael@novotny.com',
-    image_url: '/customers/michael-novotny.png',
-  },
-  {
-    id: 'd6e15727-9fe1-4961-8c5b-ea44a9bd81aa',
-    name: 'Evil Rabbit',
-    email: 'evil@rabbit.com',
-    image_url: '/customers/evil-rabbit.png',
-  },
-  {
-    id: '126eed9c-c90c-4ef6-a4a8-fcf7408d3c66',
-    name: 'Emil Kowalski',
-    email: 'emil@kowalski.com',
-    image_url: '/customers/emil-kowalski.png',
-  },
-  {
-    id: 'CC27C14A-0ACF-4F4A-A6C9-D45682C144B9',
-    name: 'Amy Burns',
-    email: 'amy@burns.com',
-    image_url: '/customers/amy-burns.png',
-  },
-  {
-    id: '13D07535-C59E-4157-A011-F8D2EF4E0CBB',
-    name: 'Balazs Orban',
-    email: 'balazs@orban.com',
-    image_url: '/customers/balazs-orban.png',
+    title: 'Project 3 Mossambicus',
+    sample_names: 'Sample_names.csv',
+    type: 'ASE_SNPs',
   },
 ];
 
-const invoices = [
+const ase_details = [
   {
-    customer_id: customers[0].id,
-    amount: 15795,
-    status: 'pending',
-    date: '2022-12-06',
+    design: 'Experimental_design.csv',
+    groups: 'Experimental_groups.csv',
+    two_samples: 'Pseudogenomes_code.csv',
+    fastq_path: 'fastq_merged',
+    name_by_tissue: 'Samples_MAE.csv',
+    knwon_geno: 'AD_GT_counts_bi_DNA.csv',
+  }
+];
+
+const vcf_details = [
+  {
+    SNP_table: 'AD_GT_counts_bi_DNA.csv',
+  }
+];
+
+const genome = [
+  {
+    species: 'Oreochromis niloticus',
+    release: 'GCF_001858045.2',
+    build: 'NMBU',
+    file: 'Oreochromis_niloticus.O_niloticus_UMD_NMBU.109.fa',
   },
   {
-    customer_id: customers[1].id,
-    amount: 20348,
-    status: 'pending',
-    date: '2022-11-14',
-  },
-  {
-    customer_id: customers[4].id,
-    amount: 3040,
-    status: 'paid',
-    date: '2022-10-29',
-  },
-  {
-    customer_id: customers[3].id,
-    amount: 44800,
-    status: 'paid',
-    date: '2023-09-10',
-  },
-  {
-    customer_id: customers[5].id,
-    amount: 34577,
-    status: 'pending',
-    date: '2023-08-05',
-  },
-  {
-    customer_id: customers[7].id,
-    amount: 54246,
-    status: 'pending',
-    date: '2023-07-16',
-  },
-  {
-    customer_id: customers[6].id,
-    amount: 666,
-    status: 'pending',
-    date: '2023-06-27',
-  },
-  {
-    customer_id: customers[3].id,
-    amount: 32545,
-    status: 'paid',
-    date: '2023-06-09',
-  },
-  {
-    customer_id: customers[4].id,
-    amount: 1250,
-    status: 'paid',
-    date: '2023-06-17',
-  },
-  {
-    customer_id: customers[5].id,
-    amount: 8546,
-    status: 'paid',
-    date: '2023-06-07',
-  },
-  {
-    customer_id: customers[1].id,
-    amount: 500,
-    status: 'paid',
-    date: '2023-08-19',
-  },
-  {
-    customer_id: customers[5].id,
-    amount: 8945,
-    status: 'paid',
-    date: '2023-06-03',
-  },
-  {
-    customer_id: customers[2].id,
-    amount: 8945,
-    status: 'paid',
-    date: '2023-06-18',
-  },
-  {
-    customer_id: customers[0].id,
-    amount: 8945,
-    status: 'paid',
-    date: '2023-10-04',
-  },
-  {
-    customer_id: customers[2].id,
-    amount: 1000,
-    status: 'paid',
-    date: '2022-06-05',
+    species: 'Oreochromis mossambicus',
+    release: 'EIV1',
+    build: 'Norwick',
+    file: 'Oreochromis_mossambicus_EIV1.fa',
   },
 ];
 
-const revenue = [
-  { month: 'Jan', revenue: 2000 },
-  { month: 'Feb', revenue: 1800 },
-  { month: 'Mar', revenue: 2200 },
-  { month: 'Apr', revenue: 2500 },
-  { month: 'May', revenue: 2300 },
-  { month: 'Jun', revenue: 3200 },
-  { month: 'Jul', revenue: 3500 },
-  { month: 'Aug', revenue: 3700 },
-  { month: 'Sep', revenue: 2500 },
-  { month: 'Oct', revenue: 2800 },
-  { month: 'Nov', revenue: 3000 },
-  { month: 'Dec', revenue: 4800 },
+const functional_annotation = [
+  {
+    GO: 'Nile_mart_GO.csv',
+    KEGG: '',
+  },
+  {
+    GO: 'OREMO8127_EIv1.0.annotation.gff3.pep.fasta.functional_annotation.tsv',
+    KEGG: '',
+  },
 ];
+
+const sequencing = [
+  {
+    read_lenght: '149',
+    ends: 'PE', // Cand be single ends SE or paired ends PE
+    trim: '3', // Lenght of the trimming
+  },
+];
+
+const engine = [
+  {
+    type: 'HPC',
+    GPUs: '1',
+    threads: '4',
+    mem_mb: '900',
+    java_opts: '-XX:MinRAMPercentage=80.0 -Xms800G -XX:+UseParallelGC -XX:ParallelGCThreads=4 -XX:+UseTLAB',
+    workflow_path: '~/Projects/Project3/workflow/',
+  },
+  {
+    type: 'CPU',
+    GPUs: '0',
+    threads: '4',
+    mem_mb: '10',
+    java_opts: '-XX:MinRAMPercentage=80.0 -Xms8G -XX:+UseParallelGC -XX:ParallelGCThreads=4 -XX:+UseTLAB',
+    workflow_path: '~/Dropbox/salinity_RNAseq/Project 3/workflow/',
+  },
+];
+
+const annotation = [
+  {
+    gff3: 'Oreochromis_niloticus.O_niloticus_UMD_NMBU.109.gff3',
+    gtf: 'Oreochromis_niloticus.O_niloticus_UMD_NMBU.109.gtf',
+    annovar_db: 'ON_refGene.txt',
+  },
+  {
+    gff3: 'OREMO8127_EIv1.0.annotation.gff3',
+    gtf: 'OREMO8127_EIv1.0.annotation.gtf',
+    annovar_db: 'OM_refGene.txt',
+  },
+];
+
+const SNPs = [
+  {
+    CHROM: '',
+    POS: '',
+    ref: '',
+    alt: '',
+    ref_count: '',
+    alt_count: '',
+    gene: '',
+    transcript: '',
+    type: '', // coding, mRNA, tRNA, rRNA, non-coding, long-non-coding, others
+    pdb: '',
+    gene_image: '',
+    protein_image: '',
+    notes: '',
+  }
+];
+
+const results_ASE = [
+  {
+    o1: 'results / SNPs_function.csv',
+    o2: 'results / SNP_dictionary.csv',
+    o3: 'results / Treatment_SNPs_sig_all_for_Venn.csv',
+    o4: 'results / Summary_of_polymorphisms.csv',
+    o5: 'results / Intronic_SNPs_caryotype.csv',
+  },
+];
+
+const results_GWAS = [
+  {
+    manhattan_plot: '', //path
+  },
+];
+
 
 module.exports = {
   users,
-  customers,
-  invoices,
-  revenue,
+  project_description,
+  ase_details,
+  vcf_details,
+  genome,
+  functional_annotation,
+  sequencing,
+  engine,
+  annotation,
+  SNPs,
+  results_ASE,
+  results_GWAS,
+  results_CHIP_seq,
 };
