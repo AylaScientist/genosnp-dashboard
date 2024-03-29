@@ -1,8 +1,11 @@
+
+
+
 // This file contains type definitions for your data.
 // It describes the shape of the data, and what data type each property should accept.
 // For simplicity of teaching, we're manually defining these types.
 // However, these types are generated automatically if you're using an ORM such as Prisma.
-export type User = {
+export type Users = {
   id: string;
   name: string;
   email: string;
@@ -28,11 +31,38 @@ export type vcf_details = {
   SNP_table: string;
 };
 
-export type genome = {
+export type Genomes = {
+  id: number;
   species: string;
   release: string;
   build: string;
   file: string;
+  image_url: string;
+};
+
+export type GenomesTableType = {
+  id: string;
+  species: string;
+  release: string;
+  build: string;
+  file: string;
+  total_coding: number;
+  total_non_coding: number;
+  image_url: string;
+};
+
+export type GenomeField = {
+  id: string;
+  species: string;
+};
+
+export type FormattedGenomeTable = {
+  id: string;
+  species: string;
+  release: string;
+  build: string;
+  file: string;
+  image_url: string;
 };
 
 export type functional_annotation = {
@@ -61,7 +91,72 @@ export type annotation = {
   annovar_db: string;
 }
 
-export type SNP = {
+export type SNPs = {
+  id: string;
+  genome_id: string;
+  CHROM: string;
+  POS: number;
+  ref: string;
+  alt: string;
+  gene: string;
+  AF: number;
+  transcript: string;
+  type: 'coding' | 'tRNA' | 'rRNA' | 'non_coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
+  pdb: string;
+  gene_image: string;
+  protein_image: string;
+  notes: string;
+};
+
+export type SNPForm = {
+  id: string;
+  genome_id: string;
+  species: string;
+  gene: string;
+  AF: number;
+  ASE: 'yes' | 'no' | 'N/A';
+  type: 'coding' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
+};
+
+export type Statistics = {
+  genome_id: string;
+  total_snps: number;
+};
+
+export type LatestSNP = {
+  id: string;
+  genome_id: string;
+  gene: string;
+  transcript: string;
+  af: number;
+};
+
+// The database returns a number for amount, but we later format it to a string with the formatCurrency function
+export type LatestSNPRaw = Omit<LatestSNP, 'af'> & {
+  af: number;
+};
+
+export type SNPsTable = {
+  CHROM: string;
+  POS: number;
+  ref: string;
+  alt: string;
+  gene: string;
+  af: number;
+  transcript: string;
+  type: 'coding' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
+  pdb: string;
+  gene_image: string;
+  protein_image: string;
+  notes: string;
+};
+
+export type GenomesField = {
+  id: string;
+  name: string;
+};
+
+export type SNPsForm = {
   CHROM: string;
   POS: number;
   ref: string;
@@ -70,75 +165,14 @@ export type SNP = {
   alt_count: number;
   gene: string;
   transcript: string;
-  type: 'coding' | 'mRNA' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'others'; // In TypeScript, this is called a string union type.
+  type: 'coding' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
   pdb: string;
   gene_image: string;
   protein_image: string;
   notes: string;
 };
 
-export type Statistics = {
-  month: string;
-  revenue: number;
-};
-
-export type LatestSNP = {
-  id: string;
-  name: string;
-  image_url: string;
-  email: string;
-  amount: string;
-};
-
-// The database returns a number for amount, but we later format it to a string with the formatCurrency function
-export type LatestSNPRaw = Omit<LatestSNP, 'amount'> & {
-  amount: number;
-};
-
-export type SNPsTable = {
-  id: string;
-  customer_id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  date: string;
-  amount: number;
-  status: 'pending' | 'paid';
-};
-
-export type genomesTableType = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  total_invoices: number;
-  total_pending: number;
-  total_paid: number;
-};
-
-export type FormattedgenomesTable = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-  total_invoices: number;
-  total_pending: string;
-  total_paid: string;
-};
-
-export type genomesField = {
-  id: string;
-  name: string;
-};
-
-export type SNPsForm = {
-  id: string;
-  customer_id: string;
-  amount: number;
-  status: 'pending' | 'paid';
-};
-
-export type results_ASE = {
+export type Results = { //ASE
   o1: string;
   o2: string;
   o3: string;

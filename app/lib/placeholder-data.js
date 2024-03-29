@@ -29,17 +29,17 @@ const ase_details = [
     two_samples: 'Pseudogenomes_code.csv',
     fastq_path: 'fastq_merged',
     name_by_tissue: 'Samples_MAE.csv',
-    knwon_geno: 'AD_GT_counts_bi_DNA.csv',
-  }
+    known_geno: 'AD_GT_counts_bi_DNA.csv',
+  },
 ];
 
 const vcf_details = [
   {
     SNP_table: 'AD_GT_counts_bi_DNA.csv',
-  }
+  },
 ];
 
-const genome = [
+const genomes = [
   {
     species: 'Oreochromis niloticus',
     release: 'GCF_001858045.2',
@@ -51,6 +51,19 @@ const genome = [
     release: 'EIV1',
     build: 'Norwick',
     file: 'Oreochromis_mossambicus_EIV1.fa',
+  },
+];
+
+const genomestabletype = [
+  {
+    id: '',
+    species: '',
+    release: '',
+    build: '',
+    file: '',
+    total_coding: '',
+    total_non_coding: '',
+    image_url: '',
   },
 ];
 
@@ -107,23 +120,31 @@ const annotation = [
 
 const SNPs = [
   {
+    id: '',
+    genome_id: '',
     CHROM: '',
     POS: '',
     ref: '',
     alt: '',
-    ref_count: '',
-    alt_count: '',
     gene: '',
+    af: '',
     transcript: '',
     type: '', // coding, mRNA, tRNA, rRNA, non-coding, long-non-coding, others
     pdb: '',
     gene_image: '',
     protein_image: '',
     notes: '',
-  }
+  },
 ];
 
-const results_ASE = [
+const statistics = [
+  {
+    genome_id: '',
+    total_snps: '',
+  },
+];
+
+const results = [
   {
     o1: 'results / SNPs_function.csv',
     o2: 'results / SNP_dictionary.csv',
@@ -151,7 +172,7 @@ module.exports = {
   engine,
   annotation,
   SNPs,
-  results_ASE,
+  results,
   results_GWAS,
   results_CHIP_seq,
 };
