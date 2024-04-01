@@ -11,11 +11,7 @@ export default function Page() {
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
           <p className={`text-xl text-gray-800 md:text-3xl md:leading-normal`}>
-            <strong>Welcome to Acme.</strong> This is the example for the{' '}
-            <a href="https://nextjs.org/learn/" className="text-logo-500">
-              Next.js Learn Course
-            </a>
-            , brought to you by Vercel.
+            <strong>Welcome to GenoSNP.</strong> Find, quantify and visualise your SNPs.
           </p>
           <Link
             href="/login"
