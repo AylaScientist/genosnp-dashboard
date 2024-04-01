@@ -26,7 +26,7 @@ export default function GenoSNPLogo() {
         width={50}
         alt="Follow us on Twitter"
       />
-      <p className="text-[44px]" style={{ color: '#F4E2DE' }}>GenoSNP</p>
+      <p className="text-[40px]" style={{ color: '#F4E2DE' }}>GenoSNP</p>
     </div>
   );
 }
