@@ -1,6 +1,6 @@
-import { GlobeAltIcon } from '@heroicons/react/24/outline';
+// import { GlobeAltIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
-import GenoIcon from '@/app/icons/genosnp-favicon-white.svg'
+import GenoIcon from '@/app/icons/genosnp-favicon-color.svg'
 import { actor } from '@/app/ui/fonts';
 
 // export default function AcmeLogo() {
