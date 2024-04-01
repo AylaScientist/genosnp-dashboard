@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import Image from 'next/image'; // Import the Image component
 import loginImage from '@/app/images/DNA_pano.png'; // Import the image file
+import loginImageMobile from '@/app/images/SNP or variant 34adeb1b-ff04-4d82-b273-4bac58479aad.png'; // Import the image file
 
 
 export default function Page() {
@@ -25,9 +26,23 @@ export default function Page() {
           </Link>
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          <Image src={loginImage} alt="Login Image" width={500} height={100} style={{ borderRadius: '10px' }} />
+          <Image 
+            src={loginImage} 
+            alt="DNA Image"   
+            width={500} 
+            height={100} 
+            className="hidden md:block"
+            style={{ borderRadius: '10px' }} />
           {/* Add Hero Images Here */}
+          <Image
+            src={loginImageMobile}
+            width={560}
+            height={620}
+            className="block md:hidden"
+            alt="DNA mobile version"
+          />
         </div>
+
       </div>
     </main>
   );
