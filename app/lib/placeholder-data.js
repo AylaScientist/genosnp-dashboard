@@ -45,12 +45,14 @@ const genomes = [
     release: 'GCF_001858045.2',
     build: 'NMBU',
     file: 'Oreochromis_niloticus.O_niloticus_UMD_NMBU.109.fa',
+    image_url: 'https://commons.wikimedia.org/wiki/File:Oreochromis_niloticus_Thailand.jpg#/media/File:Oreochromis_niloticus_Thailand.jpg',
   },
   {
     species: 'Oreochromis mossambicus',
     release: 'EIV1',
     build: 'Norwick',
     file: 'Oreochromis_mossambicus_EIV1.fa',
+    image_url: 'https://upload.wikimedia.org/wikipedia/commons/e/e8/Oreochromis_mossambicus.jpg',
   },
 ];
 
@@ -61,10 +63,22 @@ const genomestabletype = [
     release: '',
     build: '',
     file: '',
-    total_coding: '',
-    total_non_coding: '',
     image_url: '',
   },
+];
+
+const formattedgenometable = [
+  {
+    id: '',
+    species: '',
+    release: '',
+    build: '',
+    file: '',
+    image_url: '', 
+    total_SNPs: '',
+    total_coding: '',
+    total_non_coding: '',
+  }
 ];
 
 const functional_annotation = [
@@ -166,7 +180,9 @@ module.exports = {
   project_description,
   ase_details,
   vcf_details,
-  genome,
+  genomes,
+  genomestabletype,
+  formattedgenometable,
   functional_annotation,
   sequencing,
   engine,

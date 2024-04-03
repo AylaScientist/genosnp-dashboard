@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { actor } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
 import {
-  GenomeTableType,
   FormattedGenomeTable,
 } from '@/app/lib/definitions';
 
@@ -30,34 +29,34 @@ export default async function GenomeTable({
                     <div className="flex items-center justify-between border-b pb-4">
                       <div>
                         <div className="mb-2 flex items-center">
-                          <div className="flex items-center gap-3">
+                          <div className="flex Titems-center gap-3">
                             <Image
                               src={genome.image_url}
                               className="rounded-full"
-                              alt={`${genome.name}'s profile picture`}
+                              alt={`${genome.species}'s profile picture`}
                               width={28}
                               height={28}
                             />
-                            <p>{genome.name}</p>
+                            <p>{genome.species}</p>
                           </div>
                         </div>
                         <p className="text-sm text-gray-500">
-                          {genome.email}
+                          {genome.build}
                         </p>
                       </div>
                     </div>
                     <div className="flex w-full items-center justify-between border-b py-5">
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Pending</p>
-                        <p className="font-medium">{genome.total_pending}</p>
+                        <p className="text-xs">Coding</p>
+                        <p className="font-medium">{genome.total_coding}</p>
                       </div>
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Paid</p>
-                        <p className="font-medium">{genome.total_paid}</p>
+                        <p className="text-xs">Non-coding</p>
+                        <p className="font-medium">{genome.total_non_coding}</p>
                       </div>
                     </div>
                     <div className="pt-4 text-sm">
-                      <p>{genome.total_invoices} invoices</p>
+                      <p>{genome.total_SNPs} SNPs</p>
                     </div>
                   </div>
                 ))}
@@ -91,24 +90,24 @@ export default async function GenomeTable({
                           <Image
                             src={genome.image_url}
                             className="rounded-full"
-                            alt={`${genome.name}'s profile picture`}
+                            alt={`${genome.species}'s profile picture`}
                             width={28}
                             height={28}
                           />
-                          <p>{genome.name}</p>
+                          <p>{genome.species}</p>
                         </div>
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {genome.email}
+                        {genome.build}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {genome.total_invoices}
+                        {genome.total_SNPs}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {genome.total_pending}
+                        {genome.total_coding}
                       </td>
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                        {genome.total_paid}
+                        {genome.total_non_coding}
                       </td>
                     </tr>
                   ))}

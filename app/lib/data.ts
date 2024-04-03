@@ -176,7 +176,8 @@ export async function fetchGenomes() {
     const data = await sql<GenomeField>`
       SELECT
         id,
-        name
+        species,
+        build
       FROM genomes
       ORDER BY name ASC
     `;

@@ -63,6 +63,9 @@ export type FormattedGenomeTable = {
   build: string;
   file: string;
   image_url: string;
+  total_SNPs: number;
+  total_coding: number;
+  total_non_coding: number;
 };
 
 export type functional_annotation = {
