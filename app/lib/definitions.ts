@@ -181,8 +181,10 @@ export type Results = { //ASE
   o3: string;
   o4: string;
   o5: string;
+  total_SNPs: number;
 }
 
 export type results_GWAS = {
   manhattan_plot: string;
+  total_SNPs: number;
 }

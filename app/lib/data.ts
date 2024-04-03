@@ -8,7 +8,7 @@ import {
   Genomes,
   Results,
 } from './definitions';
-import { formatCurrency } from './utils';
+// import { formatCurrency } from './utils';
 
 export async function fetchResult() {
   // Add noStore() here to prevent the response from being cached.
