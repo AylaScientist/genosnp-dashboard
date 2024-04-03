@@ -15,7 +15,7 @@ import Link from 'next/link';
 const links = [
   { name: 'Home', href: '/dashboard', icon: HomeIcon },
   { name: 'Projects', href: '/dashboard/projects', icon: Projects }, 
-  { name: 'SNPs',    href: '/dashboard/snps',    icon: SNPs },
+  { name: 'SNPs',    href: '/dashboard/snps', icon: SNPs },
   { name: 'Genomes', href: '/dashboard/genomes', icon: Genomes },
 ];
 
