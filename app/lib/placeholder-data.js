@@ -6,8 +6,8 @@ const { v4: uuidv4 } = require('uuid');
 const users = [
   {
     id: uuidv4(), // Automatically generated UUID
-    name: 'User',
-    email: 'user@nextmail.com',
+    name: 'User3',
+    email: 'user3@nextmail.com',
     password: '123456',
   },
 ];
@@ -119,6 +119,7 @@ const functional_annotation = [
 const projects = [
   {
     id: uuidv4(), // Automatically generated UUID
+    user_id: users[0].id,
     title: 'Project 3 Nile',
     genome_id: genomes[0].id,
     sample_names: 'Sample_names.csv',
@@ -126,6 +127,7 @@ const projects = [
   },
   {
     id: uuidv4(), // Automatically generated UUID
+    user_id: users[0].id, 
     title: 'Project 3 Mossambicus',
     genome_id: genomes[1].id,
     sample_names: 'Sample_names.csv',
@@ -133,6 +135,7 @@ const projects = [
   },
   {
     id: uuidv4(), // Automatically generated UUID
+    user_id: users[0].id, 
     title: 'Homo sapiens SNPs',
     genome_id: genomes[2].id,
     sample_names: 'Sample_names.csv',
@@ -216,13 +219,14 @@ const annotation = [
   },
 ];
 
-const SNPs = [
+const snps = [
   {
     id: uuidv4(), // Automatically generated UUID
     genome_id: genomes[2].id,
     project_id: projects[2].id,
-    CHROM: 'NC_000001.11',
-    POS: '11805287',
+    user_id: users[0].id,
+    chrom: 'NC_000001.11',
+    pos: '11805287',
     ref: 'C',
     alt: 'T',
     gene: '4524',
@@ -239,13 +243,14 @@ const SNPs = [
     id: uuidv4(), // Automatically generated UUID
     genome_id: genomes[0].id,
     project_id: projects[0].id,
-    CHROM: 'LG1',
-    POS: '46970',
+    user_id: users[0].id,
+    chrom: 'LG1',
+    pos: '46970',
     ref: 'C',
     alt: 'T',
     gene: 'ENSONIG00000015575',
     gene_name: 'ctsd cathepsin D',
-    af: '0,9155',
+    af: '0.9155',
     transcript: 'ENSONIT00000065129.1',
     type: 'coding', // coding, mRNA, tRNA, rRNA, non-coding, long-non-coding, others
     gene_image: 'https://www.ncbi.nlm.nih.gov/gene/100690050',
@@ -285,9 +290,6 @@ const results_GWAS = [
 
 module.exports = {
   users,
-  projects,
-  ase_details,
-  vcf_details,
   genomes,
   genomestabletype,
   formattedgenometable,
@@ -295,7 +297,10 @@ module.exports = {
   sequencing,
   engine,
   annotation,
-  SNPs,
+  projects,
+  ase_details,
+  vcf_details, 
+  snps,
   results,
   results_GWAS,
 };

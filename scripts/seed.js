@@ -48,57 +48,6 @@ async function seedUsers(client) {
   }
 }
 
-async function seedSNPs(client) {
-  try {
-    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
-    // Create the "snps" table if it doesn't exist
-    const createTable = await client.sql`
-    CREATE TABLE IF NOT EXISTS snps (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    genome_id UUID NOT NULL,
-    project_id UUID NOT NULL,
-    chrom VARCHAR(255) NOT NULL,
-    pos INT NOT NULL,
-    ref VARCHAR(255) NOT NULL,
-    alt VARCHAR(255) NOT NULL,
-    gene VARCHAR(255) NOT NULL,
-    gene_name VARCHAR(255) NOT NULL,
-    af FLOAT NOT NULL,
-    transcript VARCHAR(255) NOT NULL,
-    type VARCHAR(255) NOT NULL,
-    gene_image VARCHAR(255) NOT NULL,
-    protein_image VARCHAR(255) NOT NULL,
-    notes VARCHAR(255) NOT NULL,
-    date DATE NOT NULL
-  );
-`;
-
-    console.log(`Created "snps" table`);
-
-    // Insert data into the "snps" table
-    const insertedSNPs = await Promise.all(
-      snps.map(async (snp) => {
-        const snpId = uuidv4(); // Generate UUID for genome ID
-        (snp) => client.sql`
-        INSERT INTO snps (genome_id, project_id, chrom, pos, ref, alt, gene, gene_name, af, transcript, type, gene_image, protein_image, notes, date)
-        VALUES (${snpId}, ${snp.genome_id}, ${snp.project_id}, ${snp.chrom}, ${snp.pos}, ${snp.ref}, ${snp.alt}, ${snp.gene}, ${snp.gene_name}, ${snp.af}, ${snp.transcript}, ${snp.type}, ${snp.gene_image}, ${snp.protein_image}, ${snp.notes}, ${snp.date})
-        ON CONFLICT (id) DO NOTHING;
-      `;
-      }),
-    );
-
-    console.log(`Seeded ${insertedSNPs.length} SNPs`);
-
-    return {
-      createTable,
-      snps: insertedSNPs,
-    };
-  } catch (error) {
-    console.error('Error seeding snps:', error);
-    throw error;
-  }
-}
 
 async function seedGenomes(client) {
   try {
@@ -122,7 +71,7 @@ async function seedGenomes(client) {
     const insertedGenomes = await Promise.all(
       genomes.map(async (genome) => {
         const genomeId = uuidv4(); // Generate UUID for genome ID
-        (genome) => client.sql`
+        return client.sql`
           INSERT INTO genomes (id, species, release, build, file, image_url)
           VALUES (${genomeId}, ${genome.species}, ${genome.release}, ${genome.build}, ${genome.file}, ${genome.image_url})
           ON CONFLICT (id) DO NOTHING;
@@ -149,8 +98,9 @@ async function seedProjects(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS projects (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        user_id UUID NOT NULL,
         title VARCHAR(255) NOT NULL,
-        genome_id INT NOT NULL,
+        genome_id UUID NOT NULL,
         sample_names TEXT NOT NULL,
         type VARCHAR(255) NOT NULL
       );
@@ -162,11 +112,11 @@ async function seedProjects(client) {
     const insertedProjects = await Promise.all(
       projects.map(async(project) => {
         const projectId = uuidv4(); // Generate UUID for genome ID
-        (project) => client.sql`
-        INSERT INTO projects (id, title, genome_id, sample_names, type)
-        VALUES (${projectId}, ${project.title}, ${project.genome_id}, ${project.sample_names}, ${project.type})
-        ON CONFLICT (id) DO NOTHING;
-      `;
+        return client.sql`
+          INSERT INTO projects (id, user_id, title, genome_id, sample_names, type)
+          VALUES (${projectId}, ${project.user_id}, ${project.title}, ${project.genome_id}, ${project.sample_names}, ${project.type})
+          ON CONFLICT (id) DO NOTHING;
+        `;
       }),
     );
 
@@ -182,13 +132,67 @@ async function seedProjects(client) {
   }
 }
 
+async function seedSNPs(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "snps" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS snps (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        genome_id UUID NOT NULL,
+        project_id UUID NOT NULL,
+        user_id UUID NOT NULL,
+        chrom VARCHAR(255) NOT NULL,
+        pos INT NOT NULL,
+        ref VARCHAR(255) NOT NULL,
+        alt VARCHAR(255) NOT NULL,
+        gene VARCHAR(255) NOT NULL,
+        gene_name VARCHAR(255) NOT NULL,
+        af FLOAT NOT NULL,
+        transcript VARCHAR(255) NOT NULL,
+        type VARCHAR(255) NOT NULL,
+        gene_image VARCHAR(255) NOT NULL,
+        protein_image VARCHAR(255) NOT NULL,
+        notes VARCHAR(1000) NOT NULL,
+        date DATE NOT NULL
+      );
+    `;
+
+    console.log(`Created "snps" table`);
+
+    // Insert data into the "snps" table
+    const insertedSNPs = await Promise.all(
+      snps.map(async (snp) => {
+        const snpId = uuidv4(); // Generate UUID for SNP ID
+        return client.sql`
+          INSERT INTO snps (id, genome_id, project_id, user_id, chrom, pos, ref, alt, gene, gene_name, af, transcript, type, gene_image, protein_image, notes, date)
+          VALUES (${snpId}, ${snp.genome_id}, ${snp.project_id}, ${snp.user_id}, ${snp.chrom}, ${snp.pos}, ${snp.ref}, ${snp.alt}, ${snp.gene}, ${snp.gene_name}, ${snp.af}, ${snp.transcript}, ${snp.type}, ${snp.gene_image}, ${snp.protein_image}, ${snp.notes}, ${snp.date})
+          ON CONFLICT (id) DO NOTHING;
+        `;
+      }),
+    );
+
+    console.log(`Seeded ${insertedSNPs.length} SNPs`);
+
+    return {
+      createTable,
+      snps: insertedSNPs,
+    };
+  } catch (error) {
+    console.error('Error seeding snps:', error);
+    throw error;
+  }
+}
+
 async function main() {
   const client = await db.connect();
 
   await seedUsers(client);
   await seedGenomes(client);
-  await seedSNPs(client);
   await seedProjects(client);
+  await seedSNPs(client);
+
 
   await client.end();
 }

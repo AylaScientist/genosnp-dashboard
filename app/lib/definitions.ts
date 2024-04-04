@@ -73,8 +73,8 @@ export type FormattedGenomeTable = {
 
 export type functional_annotation = {
   id: string;
-  GO: string;
-  KEGG: string;
+  go: string;
+  keeg: string;
 };
 
 export type sequencing = {
@@ -86,7 +86,7 @@ export type sequencing = {
 
 export type engine = {
   type: 'HPC' | 'CPU' | 'Cloud';
-  GPUs: number;
+  gpus: number;
   threads: number;
   mem_mb: number;
   java_opts: string;
@@ -104,13 +104,14 @@ export type SNPs = {
   id: string;
   genome_id: string;
   project_id: string;
-  CHROM: string;
-  POS: number;
+  user_id: string;
+  chrom: string;
+  pos: number;
   ref: string;
   alt: string;
   gene: string;
   gene_name: string;
-  AF: number;
+  af: number;
   transcript: string;
   type: 'coding' | 'tRNA' | 'rRNA' | 'non_coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
   gene_image: string;
@@ -123,13 +124,13 @@ export type SNPForm = {
   id: string;
   genome_id: string;
   project_id: string;
-  CHROM: string;
-  POS: number;
+  chrom: string;
+  pos: number;
   ref: string;
   alt: string;
   gene: string;
   gene_name: string;
-  AF: number;
+  af: number;
   transcript: string;
   type: 'coding' | 'tRNA' | 'rRNA' | 'non_coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
   gene_image: string;
@@ -161,8 +162,8 @@ export type SNPsTable = {
   id: string;
   genome_id: string;
   project_id: string;
-  CHROM: string;
-  POS: number;
+  chrom: string;
+  pos: number;
   ref: string;
   alt: string;
   gene: string;
@@ -185,14 +186,15 @@ export type SNPsForm = {
   id: string;
   genome_id: string;
   project_id: string;
-  CHROM: string;
-  POS: number;
+  chrom: string;
+  pos: number;
   ref: string;
   alt: string;
   ref_count: number;
   alt_count: number;
   gene: string;
   gene_name: string;
+  af: number;
   transcript: string;
   type: 'coding' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
   gene_image: string;
