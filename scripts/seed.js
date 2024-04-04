@@ -60,6 +60,7 @@ async function seedSNPs(client) {
     pos INT NOT NULL,
     ref VARCHAR(255) NOT NULL,
     alt VARCHAR(255) NOT NULL,
+    gene_name VARCHAR(255) NOT NULL,
     af FLOAT NOT NULL,
     transcript VARCHAR(255) NOT NULL,
     type VARCHAR(255) NOT NULL,
@@ -76,8 +77,8 @@ async function seedSNPs(client) {
     const insertedSNPs = await Promise.all(
       snps.map(
         (snp) => client.sql`
-        INSERT INTO SNPs (id, genome_id, project_id, chrom, pos, ref, alt, gene, af, transcript, type, gene_image, protein_image, notes, date)
-        VALUES (${snp.id}, ${snp.genome_id}, ${snp.project_id}, ${snp.chrom}, ${snp.pos}, ${ref}, ${alt}, ${snp.gene}, ${snp.af}, ${snp.transcript}, ${snp.type}, ${snp.gene_image}, ${snp.protein_image}, ${snp.notes}, ${snp.date})
+        INSERT INTO snps (id, genome_id, project_id, chrom, pos, ref, alt, gene_name, af, transcript, type, gene_image, protein_image, notes, date)
+        VALUES (${snp.id}, ${snp.genome_id}, ${snp.project_id}, ${snp.chrom}, ${snp.pos}, ${snp.ref}, ${snp.alt}, ${snp.gene_name}, ${snp.af}, ${snp.transcript}, ${snp.type}, ${snp.gene_image}, ${snp.protein_image}, ${snp.notes}, ${snp.date})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
@@ -141,8 +142,11 @@ async function seedProjects(client) {
     // Create the "Projects" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS projects (
-        month VARCHAR(4) NOT NULL UNIQUE,
-        projects INT NOT NULL
+        project_id INT PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        genome_id INT NOT NULL,
+        sample_names TEXT NOT NULL,
+        type VARCHAR(255) NOT NULL
       );
     `;
 
@@ -151,9 +155,9 @@ async function seedProjects(client) {
     // Insert data into the "Projects" table
     const insertedProjects = await Promise.all(
       projects.map(
-        (rev) => client.sql`
-        INSERT INTO projects (project_id, title, sample_names, type)
-        VALUES (${rev.project_id}, ${rev.title}, ${rev.sample_names}, ${rev.type})
+        (project) => client.sql`
+        INSERT INTO projects (project_id, title, genome_id, sample_names, type)
+        VALUES (${project.project_id}, ${project.title}, ${project.genome_id}, ${project.sample_names}, ${project.type})
         ON CONFLICT (project_id) DO NOTHING;
       `,
       ),
@@ -163,7 +167,7 @@ async function seedProjects(client) {
 
     return {
       createTable,
-      projects: insertedprojects,
+      projects: insertedProjects,
     };
   } catch (error) {
     console.error('Error seeding projects:', error);

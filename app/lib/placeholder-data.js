@@ -13,6 +13,7 @@ const projects = [
   {
     project_id: '1',
     title: 'Project 3 Nile',
+    genome_id: '1',
     sample_names: 'Sample_names.csv',
     type: 'ASE_SNPs',
   },
@@ -255,13 +256,14 @@ const results = [
 const results_GWAS = [
   {
     manhattan_plot: '', //path
+    total_SNPs: '',
   },
 ];
 
 
 module.exports = {
   users,
-  project_description,
+  projects,
   ase_details,
   vcf_details,
   genomes,
@@ -274,5 +276,4 @@ module.exports = {
   SNPs,
   results,
   results_GWAS,
-  results_CHIP_seq,
 };

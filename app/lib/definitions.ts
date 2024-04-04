@@ -15,6 +15,7 @@ export type Users = {
 export type Projects = {
   project_id: number;
   title: string;
+  genome_id: number;
   sample_names: string;
   type: 'ASE' | 'GWAS vcf' | 'CHIPseq' | 'Single SNP';
 };
@@ -103,7 +104,6 @@ export type SNPs = {
   POS: number;
   ref: string;
   alt: string;
-  gene: string;
   gene_name: string;
   AF: number;
   transcript: string;
