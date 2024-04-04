@@ -12,7 +12,8 @@ export type Users = {
   password: string;
 };
 
-export type project_description = {
+export type Projects = {
+  project_id: number;
   title: string;
   sample_names: string;
   type: 'ASE' | 'GWAS vcf' | 'CHIPseq' | 'Single SNP';
@@ -95,30 +96,41 @@ export type annotation = {
 }
 
 export type SNPs = {
-  id: string;
-  genome_id: string;
+  id: number;
+  genome_id: number;
+  project_id: number;
   CHROM: string;
   POS: number;
   ref: string;
   alt: string;
   gene: string;
+  gene_name: string;
   AF: number;
   transcript: string;
   type: 'coding' | 'tRNA' | 'rRNA' | 'non_coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
-  pdb: string;
   gene_image: string;
   protein_image: string;
   notes: string;
+  date: Date;
 };
 
 export type SNPForm = {
-  id: string;
-  genome_id: string;
-  species: string;
+  id: number;
+  genome_id: number;
+  project_id: number;
+  CHROM: string;
+  POS: number;
+  ref: string;
+  alt: string;
   gene: string;
+  gene_name: string;
   AF: number;
-  ASE: 'yes' | 'no' | 'N/A';
-  type: 'coding' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
+  transcript: string;
+  type: 'coding' | 'tRNA' | 'rRNA' | 'non_coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
+  gene_image: string;
+  protein_image: string;
+  notes: string;
+  date: Date;
 };
 
 export type Statistics = {
@@ -129,8 +141,8 @@ export type Statistics = {
 export type LatestSNP = {
   id: string;
   genome_id: string;
-  gene: string;
-  transcript: string;
+  gene_name: string;
+  gene_image: string;
   af: number;
 };
 
@@ -140,6 +152,7 @@ export type LatestSNPRaw = Omit<LatestSNP, 'af'> & {
 };
 
 export type SNPsTable = {
+  id: number;
   CHROM: string;
   POS: number;
   ref: string;
@@ -148,7 +161,6 @@ export type SNPsTable = {
   af: number;
   transcript: string;
   type: 'coding' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
-  pdb: string;
   gene_image: string;
   protein_image: string;
   notes: string;
@@ -160,6 +172,7 @@ export type GenomesField = {
 };
 
 export type SNPsForm = {
+  id: number;
   CHROM: string;
   POS: number;
   ref: string;
@@ -169,7 +182,6 @@ export type SNPsForm = {
   gene: string;
   transcript: string;
   type: 'coding' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
-  pdb: string;
   gene_image: string;
   protein_image: string;
   notes: string;
