@@ -13,14 +13,15 @@ export type Users = {
 };
 
 export type Projects = {
-  project_id: number;
+  id: string;
   title: string;
-  genome_id: number;
+  genome_id: string;
   sample_names: string;
   type: 'ASE' | 'GWAS vcf' | 'CHIPseq' | 'Single SNP';
 };
 
 export type ase_details = {
+  project_id: string;
   design: string;
   groups: string;
   two_samples: string;
@@ -34,7 +35,7 @@ export type vcf_details = {
 };
 
 export type Genomes = {
-  id: number;
+  id: string;
   species: string;
   release: string;
   build: string;
@@ -71,11 +72,13 @@ export type FormattedGenomeTable = {
 };
 
 export type functional_annotation = {
+  id: string;
   GO: string;
   KEGG: string;
 };
 
 export type sequencing = {
+  project_id: string;
   read_length: number;
   ends: string;
   trim: number;
@@ -91,19 +94,21 @@ export type engine = {
 };
 
 export type annotation = {
+  genome_id: string;
   gff3: string;
   gtf: string;
   annovar_db: string;
 }
 
 export type SNPs = {
-  id: number;
-  genome_id: number;
-  project_id: number;
+  id: string;
+  genome_id: string;
+  project_id: string;
   CHROM: string;
   POS: number;
   ref: string;
   alt: string;
+  gene: string;
   gene_name: string;
   AF: number;
   transcript: string;
@@ -115,9 +120,9 @@ export type SNPs = {
 };
 
 export type SNPForm = {
-  id: number;
-  genome_id: number;
-  project_id: number;
+  id: string;
+  genome_id: string;
+  project_id: string;
   CHROM: string;
   POS: number;
   ref: string;
@@ -134,6 +139,7 @@ export type SNPForm = {
 };
 
 export type Statistics = {
+  project_id: string;
   genome_id: string;
   total_snps: number;
 };
@@ -152,18 +158,22 @@ export type LatestSNPRaw = Omit<LatestSNP, 'af'> & {
 };
 
 export type SNPsTable = {
-  id: number;
+  id: string;
+  genome_id: string;
+  project_id: string;
   CHROM: string;
   POS: number;
   ref: string;
   alt: string;
   gene: string;
+  gene_name: string;
   af: number;
   transcript: string;
   type: 'coding' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
   gene_image: string;
   protein_image: string;
   notes: string;
+  date: Date;
 };
 
 export type GenomesField = {
@@ -172,7 +182,9 @@ export type GenomesField = {
 };
 
 export type SNPsForm = {
-  id: number;
+  id: string;
+  genome_id: string;
+  project_id: string;
   CHROM: string;
   POS: number;
   ref: string;
@@ -180,11 +192,13 @@ export type SNPsForm = {
   ref_count: number;
   alt_count: number;
   gene: string;
+  gene_name: string;
   transcript: string;
   type: 'coding' | 'tRNA' | 'rRNA' | 'non-coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
   gene_image: string;
   protein_image: string;
   notes: string;
+  date: Date;
 };
 
 export type Results = { //ASE

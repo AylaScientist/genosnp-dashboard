@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require('uuid');
 const { db } = require('@vercel/postgres');
 const {
   snps,
@@ -26,9 +27,10 @@ async function seedUsers(client) {
     const insertedUsers = await Promise.all(
       users.map(async (user) => {
         const hashedPassword = await bcrypt.hash(user.password, 10);
+        const userId = uuidv4(); // Generate UUID for user ID
         return client.sql`
         INSERT INTO users (id, name, email, password)
-        VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword})
+        VALUES (${userId}, ${user.name}, ${user.email}, ${hashedPassword})
         ON CONFLICT (id) DO NOTHING;
       `;
       }),
@@ -60,6 +62,7 @@ async function seedSNPs(client) {
     pos INT NOT NULL,
     ref VARCHAR(255) NOT NULL,
     alt VARCHAR(255) NOT NULL,
+    gene VARCHAR(255) NOT NULL,
     gene_name VARCHAR(255) NOT NULL,
     af FLOAT NOT NULL,
     transcript VARCHAR(255) NOT NULL,
@@ -75,13 +78,14 @@ async function seedSNPs(client) {
 
     // Insert data into the "snps" table
     const insertedSNPs = await Promise.all(
-      snps.map(
+      snps.map(async (snp) => {
+        const snpId = uuidv4(); // Generate UUID for genome ID
         (snp) => client.sql`
-        INSERT INTO snps (id, genome_id, project_id, chrom, pos, ref, alt, gene_name, af, transcript, type, gene_image, protein_image, notes, date)
-        VALUES (${snp.id}, ${snp.genome_id}, ${snp.project_id}, ${snp.chrom}, ${snp.pos}, ${snp.ref}, ${snp.alt}, ${snp.gene_name}, ${snp.af}, ${snp.transcript}, ${snp.type}, ${snp.gene_image}, ${snp.protein_image}, ${snp.notes}, ${snp.date})
+        INSERT INTO snps (genome_id, project_id, chrom, pos, ref, alt, gene, gene_name, af, transcript, type, gene_image, protein_image, notes, date)
+        VALUES (${snpId}, ${snp.genome_id}, ${snp.project_id}, ${snp.chrom}, ${snp.pos}, ${snp.ref}, ${snp.alt}, ${snp.gene}, ${snp.gene_name}, ${snp.af}, ${snp.transcript}, ${snp.type}, ${snp.gene_image}, ${snp.protein_image}, ${snp.notes}, ${snp.date})
         ON CONFLICT (id) DO NOTHING;
-      `,
-      ),
+      `;
+      }),
     );
 
     console.log(`Seeded ${insertedSNPs.length} SNPs`);
@@ -116,17 +120,14 @@ async function seedGenomes(client) {
 
     // Insert data into the "genomes" table
     const insertedGenomes = await Promise.all(
-      genomes.map(
-        (genome) => {
-          const query = `
-            INSERT INTO genomes (id, species, release, build, file, image_url)
-            VALUES ('${genome.id}', '${genome.species}', '${genome.release}', '${genome.build}', '${genome.file}', '${genome.image_url}')
-            ON CONFLICT (id) DO NOTHING;
-          `;
-          console.log("SQL Query:", query); // Log the SQL query
-          return client.sql`${query}`;
-        }
-      ),
+      genomes.map(async (genome) => {
+        const genomeId = uuidv4(); // Generate UUID for genome ID
+        (genome) => client.sql`
+          INSERT INTO genomes (id, species, release, build, file, image_url)
+          VALUES (${genomeId}, ${genome.species}, ${genome.release}, ${genome.build}, ${genome.file}, ${genome.image_url})
+          ON CONFLICT (id) DO NOTHING;
+        `;
+      }),
     );
 
     console.log(`Seeded ${insertedGenomes.length} genomes`);
@@ -147,7 +148,7 @@ async function seedProjects(client) {
     // Create the "Projects" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS projects (
-        project_id INT PRIMARY KEY,
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         title VARCHAR(255) NOT NULL,
         genome_id INT NOT NULL,
         sample_names TEXT NOT NULL,
@@ -159,13 +160,14 @@ async function seedProjects(client) {
 
     // Insert data into the "Projects" table
     const insertedProjects = await Promise.all(
-      projects.map(
+      projects.map(async(project) => {
+        const projectId = uuidv4(); // Generate UUID for genome ID
         (project) => client.sql`
-        INSERT INTO projects (project_id, title, genome_id, sample_names, type)
-        VALUES (${project.project_id}, ${project.title}, ${project.genome_id}, ${project.sample_names}, ${project.type})
-        ON CONFLICT (project_id) DO NOTHING;
-      `,
-      ),
+        INSERT INTO projects (id, title, genome_id, sample_names, type)
+        VALUES (${projectId}, ${project.title}, ${project.genome_id}, ${project.sample_names}, ${project.type})
+        ON CONFLICT (id) DO NOTHING;
+      `;
+      }),
     );
 
     console.log(`Seeded ${insertedProjects.length} projects`);
