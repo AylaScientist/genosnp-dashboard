@@ -108,7 +108,7 @@ async function seedGenomes(client) {
         release VARCHAR(255) NOT NULL,
         build VARCHAR(255) NOT NULL,
         file VARCHAR(255) NOT NULL,
-        image_url VARCHAR(255) NOT NULL,
+        image_url VARCHAR(255) NOT NULL
       );
     `;
 
@@ -117,11 +117,15 @@ async function seedGenomes(client) {
     // Insert data into the "genomes" table
     const insertedGenomes = await Promise.all(
       genomes.map(
-        (genome) => client.sql`
-        INSERT INTO genomes (id, species, release, build, file, image_url)
-        VALUES (${genome.id}, ${genome.species}, ${genome.release}, ${genome.build}, ${genome.file}, ${genome.image_url})
-        ON CONFLICT (id) DO NOTHING;
-      `,
+        (genome) => {
+          const query = `
+            INSERT INTO genomes (id, species, release, build, file, image_url)
+            VALUES ('${genome.id}', '${genome.species}', '${genome.release}', '${genome.build}', '${genome.file}', '${genome.image_url}')
+            ON CONFLICT (id) DO NOTHING;
+          `;
+          console.log("SQL Query:", query); // Log the SQL query
+          return client.sql`${query}`;
+        }
       ),
     );
 
@@ -136,6 +140,7 @@ async function seedGenomes(client) {
     throw error;
   }
 }
+
 
 async function seedProjects(client) {
   try {
