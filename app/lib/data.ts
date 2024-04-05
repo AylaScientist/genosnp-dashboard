@@ -6,11 +6,11 @@ import {
   SNPsTable,
   LatestSNPRaw,
   Genomes,
-  Results,
+  Projects,
 } from './definitions';
 // import { formatCurrency } from './utils';
 
-export async function fetchResult() {
+export async function fetchProject() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
 
@@ -18,27 +18,27 @@ export async function fetchResult() {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
-    // console.log('Fetching Result data...');
+    // console.log('Fetching Project data...');
     // await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    const data = await sql<Results>`SELECT * FROM Results`;
+    const data = await sql<Projects>`SELECT * FROM projects`;
 
     // console.log('Data fetch completed after 3 seconds.');
 
     return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch Result data.');
+    throw new Error('Failed to fetch Project data.');
   }
 }
 
 export async function fetchLatestSNP() {
   try {
     const data = await sql<LatestSNPRaw>`
-      SELECT snps.gene, genomes.species, genomes.image_url, genomes.release, snps.id, snps.AF
+      SELECT snps.gene_name, genomes.species, genomes.image_url, snps.af
       FROM snps
       JOIN genomes ON snps.genome_id = genomes.id
-      ORDER BY snps.AF DESC
+      ORDER BY snps.af DESC
       LIMIT 5`;
 
     const latestsnps = data.rows.map((snp) => ({
@@ -60,9 +60,11 @@ export async function fetchCardData() {
     const snpCountPromise = sql`SELECT COUNT(*) FROM snps`;
     const genomeCountPromise = sql`SELECT COUNT(*) FROM genomes`;
     const snpTypePromise = sql`SELECT
-         SUM(CASE WHEN status = 'coding' THEN amount ELSE 0 END) AS "coding",
-         SUM(CASE WHEN status = 'non-coding' THEN amount ELSE 0 END) AS "non-coding"
-         FROM snps`;
+         SUM(CASE WHEN type = 'coding' THEN 1 ELSE 0 END) AS "coding_snps_count",
+         SUM(CASE WHEN type = 'non-coding' THEN 1 ELSE 0 END) AS "non_coding_snps_count"
+         FROM snps
+         JOIN genomes ON snps.genome_id = genomes.id
+         GROUP BY genomes.id`;
 
     const data = await Promise.all([
       snpCountPromise,
@@ -72,14 +74,38 @@ export async function fetchCardData() {
 
     const numberOfsnps = Number(data[0].rows[0].count ?? '0');
     const numberOfgenomes = Number(data[1].rows[0].count ?? '0');
-    const totalCodingsnps = Number(data[2].rows[0].coding ?? '0');
-    const totalNon_codingsnps = Number(data[2].rows[0].non_coding ?? '0');
+    const codingSnpsByGenome: { [key: string]: number } = {}; // Initialize an empty object to store coding SNPs by genome
 
+    data[2].rows.forEach(row => {
+      const genomeId = row.genome_id;
+      const codingSnpsCount = Number(row.coding_snps_count);
+      
+      // Store coding SNPs count for each genome in the object
+      codingSnpsByGenome[genomeId] = codingSnpsCount;
+    });
+
+    // Now codingSnpsByGenome is an object where keys are genome IDs and values are total coding SNPs for each genome
+    console.log(codingSnpsByGenome);
+    
+
+    const nonCodingSnpsByGenome: { [key: string]: number } = {}; // Initialize an empty object to store coding SNPs by genome
+
+    data[2].rows.forEach(row => {
+      const genomeId = row.genome_id;
+      const nonCodingSnpsCount = Number(row.non_coding_snps_count);
+
+      // Store coding SNPs count for each genome in the object
+      nonCodingSnpsByGenome[genomeId] = nonCodingSnpsCount;
+    });
+
+    // Now codingSnpsByGenome is an object where keys are genome IDs and values are total coding SNPs for each genome
+    console.log(nonCodingSnpsByGenome);
+    
     return {
       numberOfgenomes,
       numberOfsnps,
-      totalCodingsnps,
-      totalNon_codingsnps,
+      codingSnpsByGenome,
+      nonCodingSnpsByGenome,
     };
   } catch (error) {
     console.error('Database Error:', error);
@@ -98,8 +124,11 @@ export async function fetchFilteredSNPs(
     const snps = await sql<SNPsTable>`
       SELECT
         snps.id,
+        snps.gene_name,
         snps.gene,
-        snps.AF,
+        snps.chrom,
+        snps.pos,
+        snps.af,
         snps.type,
         genomes.species,
         genomes.release,
@@ -109,10 +138,11 @@ export async function fetchFilteredSNPs(
       WHERE
         genomes.species ILIKE ${`%${query}%`} OR
         genomes.release ILIKE ${`%${query}%`} OR
+        snps.gene_name::text ILIKE ${`%${query}%`} OR
         snps.gene::text ILIKE ${`%${query}%`} OR
-        snps.AF ILIKE ${`%${query}%`} OR
+        snps.af ILIKE ${`%${query}%`} OR
         snps.type::text ILIKE ${`%${query}%`}
-      ORDER BY snps.AF DESC
+      ORDER BY snps.af DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
 
@@ -132,7 +162,8 @@ export async function fetchSNPsPages(query: string) {
       genomes.species ILIKE ${`%${query}%`} OR
       genomes.release ILIKE ${`%${query}%`} OR
       snps.gene::text ILIKE ${`%${query}%`} OR
-      snps.AF ILIKE ${`%${query}%`} OR
+      snps.gene_name::text ILIKE ${`%${query}%`} OR
+      snps.af ILIKE ${`%${query}%`} OR
       snps.type::text ILIKE ${`%${query}%`}
   `;
 
@@ -151,7 +182,13 @@ export async function fetchSNPById(id: string) {
         snps.id,
         snps.species,
         snps.gene,
-        snps.AF,
+        snps.gene_name,
+        snps.chrom,
+        snps.pos,
+        snps.ref,
+        snps.alt,
+        snps.af,
+        snps.image_url,
         snps.type
       FROM snps
       WHERE snps.id = ${id};
@@ -159,8 +196,8 @@ export async function fetchSNPById(id: string) {
 
     const snp = data.rows.map((snp) => ({
       ...snp,
-      // Convert amount from cents to dollars
-      amount: snp.AF * 100,
+      // Convert allele frequency to percentage
+      amount: snp.af * 100,
     }));
 
 
@@ -177,7 +214,8 @@ export async function fetchGenomes() {
       SELECT
         id,
         species,
-        build
+        build,
+        image_url
       FROM genomes
       ORDER BY name ASC
     `;
