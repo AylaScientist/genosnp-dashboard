@@ -124,6 +124,7 @@ const projects = [
     genome_id: genomes[0].id,
     sample_names: 'Sample_names.csv',
     type: 'ASE_SNPs',
+    total_SNPs: '28674',
   },
   {
     id: uuidv4(), // Automatically generated UUID
@@ -132,6 +133,7 @@ const projects = [
     genome_id: genomes[1].id,
     sample_names: 'Sample_names.csv',
     type: 'ASE_SNPs',
+    total_SNPs: '15421',
   },
   {
     id: uuidv4(), // Automatically generated UUID
@@ -140,6 +142,7 @@ const projects = [
     genome_id: genomes[2].id,
     sample_names: 'Sample_names.csv',
     type: 'GWAS',
+    total_SNPs: '85470',
   },
 ];
 

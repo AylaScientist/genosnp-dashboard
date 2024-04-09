@@ -1,7 +1,7 @@
 import { generateYAxis } from '@/app/lib/utils';
 import { FolderIcon } from '@heroicons/react/24/outline';
 import { actor } from '@/app/ui/fonts';
-import { Results } from '@/app/lib/definitions';
+import { Projects } from '@/app/lib/definitions';
 
 // This component is representational only.
 // For data visualization UI, check out:
@@ -9,24 +9,24 @@ import { Results } from '@/app/lib/definitions';
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function ResultsChart({
-  results,
+export default async function ProjectChart({
+  project,
 }: {
-  results: Results[];
+  project: Projects[];
 }) {
   const chartHeight = 350;
   // NOTE: comment in this code when you get to this point in the course
 
-  const { yAxisLabels, topLabel } = generateYAxis(results);
+  const { yAxisLabels, topLabel } = generateYAxis(project);
 
-  if (!results || results.length === 0) {
+  if (!project || project.length === 0) {
     return <p className="mt-4 text-gray-400">No data available.</p>;
   }
 
   return (
     <div className="w-full md:col-span-4">
       <h2 className={`${actor.className} mb-4 text-xl md:text-2xl`}>
-        Recent Results
+        Recent project
       </h2>
       {/* NOTE: comment in this code when you get to this point in the course */}
 
@@ -41,23 +41,23 @@ export default async function ResultsChart({
             ))}
           </div>
 
-          {results.map((genome) => (
-            <div key={genome.id} className="flex flex-col items-center gap-2">
+          {project.map((project) => (
+            <div key={project.id} className="flex flex-col items-center gap-2">
               <div
                 className="w-full rounded-md bg-rose-300"
                 style={{
-                  height: `${(chartHeight / topLabel) * genome.results}px`,
+                  height: `${(chartHeight / topLabel) * project.total_SNPs}px`,
                 }}
               ></div>
               <p className="-rotate-90 text-sm text-gray-400 sm:rotate-0">
-                {genome.id}
+                {project.id}
               </p>
             </div>
           ))}
         </div>
         <div className="flex items-center pb-2 pt-6">
           <FolderIcon className="h-5 w-5 text-gray-500" />
-          <h3 className="ml-2 text-sm text-gray-500 ">Last 12 genomes</h3>
+          <h3 className="ml-2 text-sm text-gray-500 ">Last 12 projects</h3>
         </div>
       </div> }
     </div>

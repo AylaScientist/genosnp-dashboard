@@ -115,7 +115,7 @@ async function seedProjects(client) {
         const projectId = uuidv4(); // Generate UUID for genome ID
         return client.sql`
           INSERT INTO projects (id, user_id, title, genome_id, sample_names, type)
-          VALUES (${projectId}, ${project.user_id}, ${project.title}, ${project.genome_id}, ${project.sample_names}, ${project.type})
+          VALUES (${projectId}, ${project.user_id}, ${project.title}, ${project.genome_id}, ${project.sample_names}, ${project.type}, ${project.total_snps})
           ON CONFLICT (id) DO NOTHING;
         `;
       }),
@@ -194,20 +194,20 @@ async function seedResults(client) {
     // Create the "snps" table if it doesn't exist
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS results (
-        project_id UUID ,
-        total_snps INT 
+        project_id UUID NOT NULL,
+        total_snps INT NOT NULL
       );
     `;
 
     console.log(`Created "results" table`);
 
-    // Insert data into the "snps" table
+    // Insert data into the "results" table
     const insertedResults = await Promise.all(
       results.map(async (result) => {
         return client.sql`
           INSERT INTO results (project_id,total_snps)
-          VALUES (${results.project_id}, ${results.total_snps})
-          ;
+          VALUES (${results.Project_id}, ${results.total_snps})
+          ON CONFLICT (project_id) DO NOTHING;
         `;
       }),
     );

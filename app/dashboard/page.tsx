@@ -1,9 +1,11 @@
 import { Card } from '@/app/dashboard/cards';
-import RevenueChart from '@/app/dashboard/results-chart';
+import ProjectChart from '@/app/dashboard/project-chart';
 import LatestSNPs from '@/app/dashboard/latest-snps';
 import { actor } from '@/app/ui/fonts';
+import { fetchProject } from '@/app/lib/data';
 
 export default async function Page() {
+    const project = await fetchProject();
     return (
         <main>
             <h1 className={`${actor.className} mb-4 text-xl md:text-2xl`}>
@@ -20,7 +22,7 @@ export default async function Page() {
         /> */}
             </div>
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-                {/* <RevenueChart revenue={revenue}  /> */}
+                { <ProjectChart project={project}  /> }
                 {/* <LatestSNPs latestSNPs={latestSNPs} /> */}
             </div>
         </main>
