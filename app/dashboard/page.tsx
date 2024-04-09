@@ -5,7 +5,8 @@ import { actor } from '@/app/ui/fonts';
 import { fetchProject } from '@/app/lib/data';
 
 export default async function Page() {
-    const project = await fetchProject();
+    const projects = await fetchProject();
+    console.log('Projects data:', projects); // Log the projects data here
     return (
         <main>
             <h1 className={`${actor.className} mb-4 text-xl md:text-2xl`}>
@@ -16,13 +17,13 @@ export default async function Page() {
                 {/* <Card title="Non Coding" value={totalnonCodingSNPs} type="non_Coding" /> */}
                 {/* <Card title="Total SNPs" value={numberOfSNPs} type="SNPs" /> */}
                 {/* <Card
-          title="Total Customers"
-          value={numberOfCustomers}
-          type="customers"
-        /> */}
+                    title="Total Customers"
+                    value={numberOfCustomers}
+                    type="customers"
+                    /> */}
             </div>
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-                { <ProjectChart project={project}  /> }
+                { <ProjectChart projects={projects}  /> }
                 {/* <LatestSNPs latestSNPs={latestSNPs} /> */}
             </div>
         </main>

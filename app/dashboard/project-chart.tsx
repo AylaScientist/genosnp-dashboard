@@ -10,16 +10,16 @@ import { Projects } from '@/app/lib/definitions';
 // https://airbnb.io/visx/
 
 export default async function ProjectChart({
-  project,
+  projects,
 }: {
-  project: Projects[];
+  projects: Projects[];
 }) {
   const chartHeight = 350;
   // NOTE: comment in this code when you get to this point in the course
 
-  const { yAxisLabels, topLabel } = generateYAxis(project);
+  const { yAxisLabels, topLabel } = generateYAxis(projects);
 
-  if (!project || project.length === 0) {
+  if (!projects || projects.length === 0) {
     return <p className="mt-4 text-gray-400">No data available.</p>;
   }
 
@@ -41,16 +41,16 @@ export default async function ProjectChart({
             ))}
           </div>
 
-          {project.map((project) => (
-            <div key={project.id} className="flex flex-col items-center gap-2">
+          {projects.map((projects) => (
+            <div key={projects.title} className="flex flex-col items-center gap-2">
               <div
                 className="w-full rounded-md bg-rose-300"
                 style={{
-                  height: `${(chartHeight / topLabel) * project.total_snps}px`,
+                  height: `${(chartHeight / topLabel) * projects.total_snps}px`,
                 }}
               ></div>
               <p className="-rotate-90 text-sm text-gray-400 sm:rotate-0">
-                {project.id}
+                {projects.title}
               </p>
             </div>
           ))}
