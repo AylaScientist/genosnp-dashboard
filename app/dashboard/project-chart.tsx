@@ -26,7 +26,7 @@ export default async function ProjectChart({
   return (
     <div className="w-full md:col-span-4">
       <h2 className={`${actor.className} mb-4 text-xl md:text-2xl`}>
-        Recent project
+        Recent projects
       </h2>
       {/* NOTE: comment in this code when you get to this point in the course */}
 
@@ -46,7 +46,7 @@ export default async function ProjectChart({
               <div
                 className="w-full rounded-md bg-rose-300"
                 style={{
-                  height: `${(chartHeight / topLabel) * project.total_SNPs}px`,
+                  height: `${(chartHeight / topLabel) * project.total_snps}px`,
                 }}
               ></div>
               <p className="-rotate-90 text-sm text-gray-400 sm:rotate-0">

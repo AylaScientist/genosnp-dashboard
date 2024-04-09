@@ -18,7 +18,7 @@ export type Projects = {
   genome_id: string;
   sample_names: string;
   type: 'ASE' | 'GWAS vcf' | 'CHIPseq' | 'Single SNP';
-  total_SNPs: number;
+  total_snps: number;
 };
 
 export type ase_details = {

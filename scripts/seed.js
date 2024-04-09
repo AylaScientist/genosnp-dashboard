@@ -103,7 +103,8 @@ async function seedProjects(client) {
         title VARCHAR(255) NOT NULL,
         genome_id UUID NOT NULL,
         sample_names TEXT NOT NULL,
-        type VARCHAR(255) NOT NULL
+        type VARCHAR(255) NOT NULL,
+        total_snps INT NOT NULL
       );
     `;
 
@@ -114,7 +115,7 @@ async function seedProjects(client) {
       projects.map(async(project) => {
         const projectId = uuidv4(); // Generate UUID for genome ID
         return client.sql`
-          INSERT INTO projects (id, user_id, title, genome_id, sample_names, type)
+          INSERT INTO projects (id, user_id, title, genome_id, sample_names, type, total_snps)
           VALUES (${projectId}, ${project.user_id}, ${project.title}, ${project.genome_id}, ${project.sample_names}, ${project.type}, ${project.total_snps})
           ON CONFLICT (id) DO NOTHING;
         `;
@@ -232,7 +233,7 @@ async function main() {
   await seedGenomes(client);
   await seedProjects(client);
   await seedSNPs(client);
-  await seedResults(client);
+  // await seedResults(client);
 
   await client.end();
 }

@@ -124,7 +124,7 @@ const projects = [
     genome_id: genomes[0].id,
     sample_names: 'Sample_names.csv',
     type: 'ASE_SNPs',
-    total_SNPs: '28674',
+    total_snps: '28674',
   },
   {
     id: uuidv4(), // Automatically generated UUID
@@ -133,7 +133,7 @@ const projects = [
     genome_id: genomes[1].id,
     sample_names: 'Sample_names.csv',
     type: 'ASE_SNPs',
-    total_SNPs: '15421',
+    total_snps: '15421',
   },
   {
     id: uuidv4(), // Automatically generated UUID
@@ -142,7 +142,7 @@ const projects = [
     genome_id: genomes[2].id,
     sample_names: 'Sample_names.csv',
     type: 'GWAS',
-    total_SNPs: '85470',
+    total_snps: '85470',
   },
 ];
 
@@ -286,21 +286,6 @@ const results_ASE = [
 ];
 
 
-const results = [
-  {
-    project_id: projects[0].id,
-    total_SNPs: '28674',
-  },
-  {
-    project_id: projects[1].id,
-    total_SNPs: '15421',
-  },
-  {
-    project_id: projects[2].id,
-    total_SNPs: '85470',
-  },
-];
-
 
 const results_GWAS = [
   {
@@ -323,7 +308,6 @@ module.exports = {
   ase_details,
   vcf_details, 
   snps,
-  results,
   results_ASE,
   results_GWAS,
 };
