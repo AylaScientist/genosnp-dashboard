@@ -151,6 +151,8 @@ export type LatestSNP = {
   gene_name: string;
   gene_image: string;
   af: number;
+  species: string;
+  type: 'coding' | 'tRNA' | 'rRNA' | 'non_coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
 };
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
@@ -204,15 +206,20 @@ export type SNPsForm = {
 };
 
 export type Results = { //ASE
+  project_id: string;
+  user_id: string;
   o1: string;
   o2: string;
   o3: string;
   o4: string;
   o5: string;
   total_SNPs: number;
+  genome_id: string;
 }
 
 export type results_GWAS = {
   manhattan_plot: string;
   total_SNPs: number;
+  project_id: string;
+  genome_id: string;
 }

@@ -1,6 +1,6 @@
 import { Card } from '@/app/dashboard/cards';
-import RevenueChart from '@/app/dashboard/revenue-chart';
-import LatestSNPs from '@/app/dashboard/latest-SNPs';
+import RevenueChart from '@/app/dashboard/results-chart';
+import LatestSNPs from '@/app/dashboard/latest-snps';
 import { actor } from '@/app/ui/fonts';
 
 export default async function Page() {

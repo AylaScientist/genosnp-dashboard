@@ -5,6 +5,7 @@ const {
   genomes,
   projects, 
   users,
+  results,
 } = require('../app/lib/placeholder-data.js');
 const bcrypt = require('bcrypt');
 
@@ -185,6 +186,45 @@ async function seedSNPs(client) {
   }
 }
 
+
+async function seedResults(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "snps" table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS results (
+        project_id UUID ,
+        total_snps INT 
+      );
+    `;
+
+    console.log(`Created "results" table`);
+
+    // Insert data into the "snps" table
+    const insertedResults = await Promise.all(
+      results.map(async (result) => {
+        return client.sql`
+          INSERT INTO results (project_id,total_snps)
+          VALUES (${results.project_id}, ${results.total_snps})
+          ;
+        `;
+      }),
+    );
+
+    console.log(`Seeded ${insertedResults.length} results`);
+
+    return {
+      createTable,
+      results: insertedResults,
+    };
+  } catch (error) {
+    console.error('Error seeding results:', error);
+    throw error;
+  }
+}
+
+
 async function main() {
   const client = await db.connect();
 
@@ -192,7 +232,7 @@ async function main() {
   await seedGenomes(client);
   await seedProjects(client);
   await seedSNPs(client);
-
+  await seedResults(client);
 
   await client.end();
 }

@@ -3,6 +3,9 @@ import Image from 'next/image';
 import Projects_ico from './Projects.svg';
 import Genomes_ico from  './Genomes.svg';
 import SNPs_ico from './SNPs.svg';
+import Coding_ico from './Protein.svg';
+import NonCoding_ico from './RNA.svg';
+
 
 
 const Projects = () => (
@@ -23,4 +26,15 @@ const SNPs = () => (
     </div>
 );
 
-export {Projects, Genomes, SNPs} ;
+const Coding = () => (
+    <div >
+        <Image src={Coding_ico} width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" />
+    </div>
+);
+
+const NonCoding = () => (
+    <div >
+        <Image src={NonCoding_ico} width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" />
+    </div>
+);
+export {Projects, Genomes, SNPs, Coding, NonCoding} ;

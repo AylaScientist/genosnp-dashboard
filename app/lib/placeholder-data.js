@@ -268,17 +268,36 @@ const statistics = [
   },
 ];
 
-const results = [
+const results_ASE = [
   {
     project_id: projects[0].id,
+    user_id: users[0].id,
     o1: 'results / SNPs_function.csv',
     o2: 'results / SNP_dictionary.csv',
     o3: 'results / Treatment_SNPs_sig_all_for_Venn.csv',
     o4: 'results / Summary_of_polymorphisms.csv',
     o5: 'results / Intronic_SNPs_caryotype.csv',
-    total_SNPs: '',
+    total_SNPs: '28674',
+    genome_id: genomes[0].id,
   },
 ];
+
+
+const results = [
+  {
+    project_id: projects[0].id,
+    total_SNPs: '28674',
+  },
+  {
+    project_id: projects[1].id,
+    total_SNPs: '15421',
+  },
+  {
+    project_id: projects[2].id,
+    total_SNPs: '85470',
+  },
+];
+
 
 const results_GWAS = [
   {
@@ -302,5 +321,6 @@ module.exports = {
   vcf_details, 
   snps,
   results,
+  results_ASE,
   results_GWAS,
 };
