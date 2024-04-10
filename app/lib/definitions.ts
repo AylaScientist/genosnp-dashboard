@@ -101,6 +101,15 @@ export type annotation = {
   annovar_db: string;
 }
 
+export type SNP = {
+  id: string; // Will be created on the database
+  genome_id: string;
+  af: number; // Stored in cents
+  type: 'coding' | 'tRNA' | 'rRNA' | 'non_coding' | 'long-non-coding' | 'Others'; // In TypeScript, this is called a string union type.
+  date: string;
+};
+
+
 export type SNPs = {
   id: string;
   genome_id: string;

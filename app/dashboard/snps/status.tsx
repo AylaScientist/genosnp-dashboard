@@ -1,7 +1,7 @@
 import { CheckIcon, ClockIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 
-export default function SNPStatus({ type }: { type: string }) {
+export default function SNPtype({ type }: { type: string }) {
     return (
         <span
             className={clsx(

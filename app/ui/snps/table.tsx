@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { UpdateSNP, DeleteSNP } from '@/app/dashboard/SNPs/buttons';
-import SNPStatus from '@/app/dashboard/SNPs/status';
+import { UpdateSNP, DeleteSNP } from '@/app/ui/snps/buttons';
+import SNPtype from '@/app/dashboard/snps/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredSNPs } from '@/app/lib/data';
 
@@ -35,9 +35,9 @@ export default async function SNPsTable({
                                             />
                                             <p>{snp.gene_name}</p>
                                         </div>
-                                        <p className="text-sm text-gray-500">{snp.status}</p>
+                                        <p className="text-sm text-gray-500">{snp.type}</p>
                                     </div>
-                                    <SNPStatus status={snp.status} />
+                                    <SNPtype type={snp.type} />
                                 </div>
                                 <div className="flex w-full items-center justify-between pt-4">
                                     <div>
@@ -70,7 +70,7 @@ export default async function SNPsTable({
                                     Date
                                 </th>
                                 <th scope="col" className="px-3 py-5 font-medium">
-                                    Status
+                                    Type
                                 </th>
                                 <th scope="col" className="relative py-3 pl-6 pr-3">
                                     <span className="sr-only">Edit</span>
@@ -105,11 +105,11 @@ export default async function SNPsTable({
                                         {formatDateToLocal(snp.date)}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                        <SNPStatus status={status} />
+                                        <SNPtype type={type} />
                                     </td>
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex justify-end gap-3">
-                                            <UpdateSNP id={id} />
+                                            <UpdateSNP id={snp.id} />
                                             <DeleteSNP id={snp.id} />
                                         </div>
                                     </td>

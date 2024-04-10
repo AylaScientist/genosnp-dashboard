@@ -1,7 +1,7 @@
-import Pagination from '@/app/ui/SNPs/pagination';
+import Pagination from '@/app/ui/snps/pagination';
 import Search from '@/app/ui/search';
-import Table from '@/app/ui/SNPs/table';
-import { CreateSNP } from '@/app/ui/SNPs/buttons';
+import Table from '@/app/ui/snps/table';
+import { CreateSNP } from '@/app/ui/snps/buttons';
 import { actor } from '@/app/ui/fonts';
 import { SNPsTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
