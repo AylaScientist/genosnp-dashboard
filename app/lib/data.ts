@@ -36,7 +36,7 @@ export async function fetchProject() {
 export async function fetchLatestSNP() {
   try {
     const data = await sql<LatestSNPRaw>`
-      SELECT snps.gene_name, genomes.species, genomes.image_url, snps.af
+      SELECT snps.gene_name, genomes.species, genomes.image_url, snps.af, snps.chrom, snps.pos
       FROM snps
       JOIN genomes ON snps.genome_id = genomes.id
       ORDER BY snps.af DESC

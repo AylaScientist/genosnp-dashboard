@@ -42,7 +42,8 @@ export default async function LatestSNPs({
                       {snp.species}
                     </p>
                     <p className="hidden text-sm text-gray-500 sm:block">
-                      {snp.type}
+                      {/* snp.chrom */}
+                      {/* snp.pos */}
                     </p>
                   </div>
                 </div>
