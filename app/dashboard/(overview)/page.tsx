@@ -6,6 +6,9 @@ import {
     fetchProject, 
     fetchLatestSNP,
     fetchCardData } from '@/app/lib/data';
+import { Suspense } from 'react';
+import { ProjectsChartSkeleton } from '@/app/ui/skeletons'
+
 
 export default async function Page() {
     const projects = await fetchProject();
@@ -33,7 +36,9 @@ export default async function Page() {
                     /> }
             </div>
             <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-                { <ProjectChart projects={projects}  /> }
+                <Suspense fallback={<ProjectsChartSkeleton />}>
+                    <ProjectChart />
+                </Suspense>
                 { <LatestSNPs LatestSNPs={LatestSNP} /> }
             </div>
         </main>

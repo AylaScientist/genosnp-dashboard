@@ -1,7 +1,7 @@
 import { generateYAxis } from '@/app/lib/utils';
 import { FolderIcon } from '@heroicons/react/24/outline';
 import { actor } from '@/app/ui/fonts';
-import { Projects } from '@/app/lib/definitions';
+import { fetchProject } from '@/app/lib/data';;
 
 // This component is representational only.
 // For data visualization UI, check out:
@@ -9,11 +9,8 @@ import { Projects } from '@/app/lib/definitions';
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function ProjectChart({
-  projects,
-}: {
-  projects: Projects[];
-}) {
+export default async function ProjectChart(){
+  const projects = await fetchProject();
   const chartHeight = 350;
   // NOTE: comment in this code when you get to this point in the course
 
