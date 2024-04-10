@@ -26,9 +26,9 @@ export const generateYAxis = (total_snps: Projects[]) => {
   // based on highest record and in 1000s
   const yAxisLabels = [];
   const highestRecord = Math.max(...total_snps.map((title) => title.total_snps));
-  const topLabel = Math.ceil(highestRecord / 1000) * 1000;
+  const topLabel = Math.ceil(highestRecord / 10000) * 1000;
 
-  for (let i = topLabel; i >= 0; i -= 1000) {
+  for (let i = topLabel; i > 0; i -= 1000) {
     yAxisLabels.push(`$${i / 1000}K`);
   }
 

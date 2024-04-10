@@ -9,11 +9,12 @@ import {
   Projects,
 } from './definitions';
 // import { formatCurrency } from './utils';
-
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function fetchProject() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
+  noStore();
 
   try {
     // Artificially delay a response for demo purposes.
@@ -34,6 +35,7 @@ export async function fetchProject() {
 }
 
 export async function fetchLatestSNP() {
+  noStore();
   try {
     const data = await sql<LatestSNPRaw>`
       SELECT snps.gene_name, genomes.species, genomes.image_url, snps.af, snps.chrom, snps.pos
@@ -54,6 +56,7 @@ export async function fetchLatestSNP() {
 }
 
 export async function fetchCardData() {
+  noStore();
   try {
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
@@ -119,6 +122,7 @@ export async function fetchFilteredSNPs(
   query: string,
   currentPage: number,
 ) {
+  noStore();
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
@@ -155,6 +159,7 @@ export async function fetchFilteredSNPs(
 }
 
 export async function fetchSNPsPages(query: string) {
+  noStore();
   try {
     const count = await sql`SELECT COUNT(*)
     FROM snps
@@ -177,6 +182,7 @@ export async function fetchSNPsPages(query: string) {
 }
 
 export async function fetchSNPById(id: string) {
+  noStore();
   try {
     const data = await sql<SNPForm>`
       SELECT
@@ -210,6 +216,7 @@ export async function fetchSNPById(id: string) {
 }
 
 export async function fetchGenomes() {
+  noStore();
   try {
     const data = await sql<GenomeField>`
       SELECT
@@ -230,6 +237,7 @@ export async function fetchGenomes() {
 }
 
 export async function fetchFilteredGenomes(query: string) {
+  noStore();
   try {
     const data = await sql<GenomesTableType>`
 		SELECT
@@ -263,6 +271,7 @@ export async function fetchFilteredGenomes(query: string) {
 }
 
 export async function getGenome(species: string) {
+  noStore();
   try {
     const genome = await sql`SELECT * FROM genomes WHERE species=${species}`;
     return genome.rows[0] as Genomes;
