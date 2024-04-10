@@ -207,7 +207,7 @@ export async function fetchSNPById(id: string) {
       amount: snp.af * 100,
     }));
 
-
+    console.log(snp); // SNP is an empty array []
     return snp[0];
   } catch (error) {
     console.error('Database Error:', error);

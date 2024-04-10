@@ -8,9 +8,9 @@ import { redirect } from 'next/navigation';
 
 const FormSchema = z.object({
     id: z.string(),
-    customerId: z.string(),
-    amount: z.coerce.number(),
-    status: z.enum(['pending', 'paid']),
+    genome_id: z.string(),
+    af: z.coerce.number(),
+    type: z.enum(['pending', 'paid']),
     date: z.string(),
 });
 
@@ -18,17 +18,17 @@ const CreateSNP = FormSchema.omit({ id: true, date: true });
 const UpdateSNP = FormSchema.omit({ id: true, date: true });
 
 export async function updateSNP(id: string, formData: FormData) {
-    const { customerId, amount, status } = UpdateSNP.parse({
-        customerId: formData.get('customerId'),
-        amount: formData.get('amount'),
-        status: formData.get('status'),
+    const { genome_id, af, type } = UpdateSNP.parse({
+        genome_id: formData.get('genome_id'),
+        af: formData.get('af'),
+        type: formData.get('type'),
     });
 
-    const amountInCents = amount * 100;
+    const afInPercentage = af * 100;
 
     await sql`
     UPDATE snps
-    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    SET genome_id = ${genome_id}, af = ${afInPercentage}, type = ${type}
     WHERE id = ${id}
   `;
 
@@ -37,7 +37,7 @@ export async function updateSNP(id: string, formData: FormData) {
 }
 
 export async function createSNP(formData: FormData) {
-    const { genomeId, af, type } = CreateSNP.parse({
+    const { genome_id, af, type } = CreateSNP.parse({
         genomeId: formData.get('genomeId'),
         af: formData.get('af'),
         type: formData.get('type'),
@@ -47,13 +47,19 @@ export async function createSNP(formData: FormData) {
 
     await sql`
     INSERT INTO snps (genome_id, af, type, date)
-    VALUES (${genomeId}, ${afInPercentage}, ${type}, ${date})
+    VALUES (${genome_id}, ${afInPercentage}, ${type}, ${date})
   `;
     revalidatePath('/dashboard/snps');
     redirect('/dashboard/snps');
 }
   
 export async function deleteSNP(id: string) {
-    await sql`DELETE FROM snps WHERE id = ${id}`;
-    revalidatePath('/dashboard/snps');
+    throw new Error('Failed to Delete SNP');
+    try {
+        await sql`DELETE FROM snps WHERE id = ${id}`;
+        revalidatePath('/dashboard/snps');
+        return { message: 'Deleted SNP' };
+    } catch (error) {
+        return { message: 'Database Error: Failed to Delete SNP' };
+    }
 }

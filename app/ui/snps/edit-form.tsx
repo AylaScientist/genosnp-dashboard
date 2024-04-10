@@ -125,5 +125,5 @@ export default function EditSNPForm({
             </Link>
             <Button type="submit">Edit SNP</Button>
         </div>
-    </form>;
+    </form>);
 }

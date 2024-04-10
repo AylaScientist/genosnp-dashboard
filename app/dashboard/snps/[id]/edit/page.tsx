@@ -3,13 +3,23 @@ import Breadcrumbs from '@/app/ui/snps/breadcrumbs';
 import {
     fetchSNPById, 
     fetchGenomes } from '@/app/lib/data';
+import { updateSNP } from '@/app/lib/actions'
+import { notFound } from 'next/navigation';
+
+
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
-    const [snp, customers] = await Promise.all([
+    const [snp, genomes] = await Promise.all([
         fetchSNPById(id),
         fetchGenomes(),
     ]);
+
+    if (!snp) {
+        notFound();
+    }
+
+
     return (
         <main>
             <Breadcrumbs
