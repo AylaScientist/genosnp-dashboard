@@ -16,25 +16,25 @@ const Projects = () => (
 
 const Genomes = () => (
     <div>
-        <Image src={Genomes_ico} width="24" height="24" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg" />
+        <Image src={Genomes_ico} alt='Genomes' width="24" height="24" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg" />
     </div>
 );
 
 const SNPs = () => (
     <div >
-        <Image src={SNPs_ico} width="24" height="24" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg" />
+        <Image src={SNPs_ico} alt='SNPs' width="24" height="24" viewBox="0 0 24 24"  xmlns="http://www.w3.org/2000/svg" />
     </div>
 );
 
 const Coding = () => (
     <div >
-        <Image src={Coding_ico} width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" />
+        <Image src={Coding_ico} alt='Coding' width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" />
     </div>
 );
 
 const NonCoding = () => (
     <div >
-        <Image src={NonCoding_ico} width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" />
+        <Image src={NonCoding_ico} alt='Non-coding' width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" />
     </div>
 );
 export {Projects, Genomes, SNPs, Coding, NonCoding} ;

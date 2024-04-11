@@ -8,40 +8,46 @@ import { redirect } from 'next/navigation';
 
 const FormSchema = z.object({
     id: z.string(),
-    genome_id: z.string(),
-    af: z.coerce.number(),
-    type: z.enum(['pending', 'paid']),
+    genome_id: z.string({
+        invalid_type_error: 'Please select a genome.',
+    }),
+    af: z.coerce
+        .number()
+        .gt(0, { message: 'Please enter an allele frequency in decimal, not in percentage.' }),
+    type: z.enum(['non-codgin', 'coding'], {
+        invalid_type_error: 'Please select a type of SNP, if coding or not-coding.',
+    }),
     date: z.string(),
 });
 
 const CreateSNP = FormSchema.omit({ id: true, date: true });
 const UpdateSNP = FormSchema.omit({ id: true, date: true });
 
-export async function updateSNP(id: string, formData: FormData) {
-    const { genome_id, af, type } = UpdateSNP.parse({
+export type State = {
+    errors?: {
+        genomeId?: string[];
+        af?: string[];
+        type?: string[];
+    };
+    message?: string | null;
+};
+
+export async function createSNP(prevState: State, formData: FormData) {
+    // Validate form fields using Zod
+    const validatedFields = CreateSNP.safeParse({
         genome_id: formData.get('genome_id'),
         af: formData.get('af'),
         type: formData.get('type'),
     });
 
-    const afInPercentage = af * 100;
+    // If form validation fails, return errors early. Otherwise, continue.
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing Fields. Failed to Create SNP.',
+        };
+    }
 
-    await sql`
-    UPDATE snps
-    SET genome_id = ${genome_id}, af = ${afInPercentage}, type = ${type}
-    WHERE id = ${id}
-  `;
-
-    revalidatePath('/dashboard/snps');
-    redirect('/dashboard/snps');
-}
-
-export async function createSNP(formData: FormData) {
-    const { genome_id, af, type } = CreateSNP.parse({
-        genomeId: formData.get('genomeId'),
-        af: formData.get('af'),
-        type: formData.get('type'),
-    });
     const afInPercentage = af * 100;
     const date = new Date().toISOString().split('T')[0];
 
@@ -52,6 +58,43 @@ export async function createSNP(formData: FormData) {
     revalidatePath('/dashboard/snps');
     redirect('/dashboard/snps');
 }
+
+export async function updateSNP(
+    id: string,
+    prevState: State,
+    formData: FormData,
+) {
+    const validatedFields = UpdateSNP.parse({
+        genome_id: formData.get('genome_id'),
+        af: formData.get('af'),
+        type: formData.get('type'),
+    });
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: 'Missing Fields. Failed to Update SNP.',
+        };
+    }
+
+    const { customerId, amount, status } = validatedFields.data;
+
+    const afInPercentage = af * 100;
+
+    try {
+        await sql`
+        UPDATE snps
+        SET genome_id = ${genome_id}, af = ${afInPercentage}, type = ${type}
+        WHERE id = ${id}
+    `;
+    } catch (error) {
+        return { message: 'Database Error: Failed to Update Invoice.' };
+    }
+
+    revalidatePath('/dashboard/snps');
+    redirect('/dashboard/snps');
+}
+
   
 export async function deleteSNP(id: string) {
     throw new Error('Failed to Delete SNP');

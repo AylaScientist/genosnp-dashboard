@@ -52,19 +52,19 @@ export default function Form({ genomes }: { genomes: GenomeField[] }) {
                 </div>
             </div>
 
-            {/* SNP Amount */}
+            {/* SNP af */}
             <div className="mb-4">
-                <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-                    Choose an amount
+                <label htmlFor="af" className="mb-2 block text-sm font-medium">
+                    Choose an af
                 </label>
                 <div className="relative mt-2 rounded-md">
                     <div className="relative">
                         <input
-                            id="amount"
-                            name="amount"
+                            id="af"
+                            name="af"
                             type="number"
                             step="0.01"
-                            placeholder="Enter USD amount"
+                            placeholder="Enter the allele frequency"
                             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                             required
                         />
