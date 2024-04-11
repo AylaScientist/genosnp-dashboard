@@ -36,8 +36,8 @@ const FormSchema = z.object({
     af: z.coerce
         .number()
         .gt(0, { message: 'Please enter an allele frequency in decimal, not in percentage.' }),
-    type: z.enum(['non-codgin', 'coding'], {
-        invalid_type_error: 'Please select a type of SNP, if coding or not-coding.',
+    type: z.enum(['non-coding', 'coding'], {
+        invalid_type_error: 'Please select a type of SNP, if coding or non-coding.',
     }),
     date: z.string(),
 });
@@ -47,7 +47,7 @@ const UpdateSNP = FormSchema.omit({ id: true, date: true });
 
 export type State = {
     errors?: {
-        genomeId?: string[];
+        genome_id?: string[];
         af?: string[];
         type?: string[];
     };
@@ -70,12 +70,12 @@ export async function createSNP(prevState: State, formData: FormData) {
         };
     }
 
-    const afInPercentage = af * 100;
+    // const afInPercentage = af * 100;
     const date = new Date().toISOString().split('T')[0];
 
     await sql`
     INSERT INTO snps (genome_id, af, type, date)
-    VALUES (${genome_id}, ${afInPercentage}, ${type}, ${date})
+    VALUES (${genome_id}, ${af}, ${type}, ${date})
   `;
     revalidatePath('/dashboard/snps');
     redirect('/dashboard/snps');
@@ -101,16 +101,16 @@ export async function updateSNP(
 
     const { customerId, amount, status } = validatedFields.data;
 
-    const afInPercentage = af * 100;
+    // const afInPercentage = af * 100;
 
     try {
         await sql`
         UPDATE snps
-        SET genome_id = ${genome_id}, af = ${afInPercentage}, type = ${type}
+        SET genome_id = ${genome_id}, af = ${af}, type = ${type}
         WHERE id = ${id}
     `;
     } catch (error) {
-        return { message: 'Database Error: Failed to Update Invoice.' };
+        return { message: 'Database Error: Failed to Update SNP.' };
     }
 
     revalidatePath('/dashboard/snps');

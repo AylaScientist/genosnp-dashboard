@@ -135,6 +135,7 @@ export async function fetchFilteredSNPs(
         snps.pos,
         snps.af,
         snps.type,
+        snps.date,
         genomes.species,
         genomes.release,
         genomes.image_url
@@ -146,6 +147,7 @@ export async function fetchFilteredSNPs(
         snps.gene_name::text ILIKE ${`%${query}%`} OR
         snps.gene::text ILIKE ${`%${query}%`} OR
         snps.af ILIKE ${`%${query}%`} OR
+        snps.date ILIKE ${`%${query}%`} OR
         snps.type::text ILIKE ${`%${query}%`}
       ORDER BY snps.af DESC
       LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
